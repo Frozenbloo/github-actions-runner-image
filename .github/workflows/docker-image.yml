@@ -6,13 +6,19 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
+jobs: 
 
   build:
 
     runs-on: self-hosted
 
-    steps:
+    steps: 
     - uses: actions/checkout@v4
+    - name:  Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo systemctl start docker
+        sudo usermod -aG docker $USER
     - name: Build the Docker image
       run: docker build --tag frozenbloo/github-actions-image:latest .
